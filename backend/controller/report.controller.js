@@ -35,16 +35,19 @@ export const exportTaskReport = async (req, res, next) => {
       })
     })
 
+    //tells the browser what type of file the server is sending
     res.setHeader(
       "Content-Type",
       "attachment/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
     )
 
+    //tells the browser to download the file instead of displaying it in the browser
     res.setHeader(
       "Content-Disposition",
       'attachment; filename="tasks_report.xlsx"'
     )
 
+    //write the workbook to the response
     return workbook.xlsx.write(res).then(() => {
       res.end()
     })

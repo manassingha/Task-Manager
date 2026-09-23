@@ -3,9 +3,7 @@ import DashboardLayout from "../../components/DashboardLayout"
 import { useNavigate } from "react-router-dom"
 import axiosInstance from "../../utils/axioInstance"
 import TaskStatusTabs from "../../components/TaskStatusTabs"
-import { FaFileLines } from "react-icons/fa6"
 import TaskCard from "../../components/TaskCard"
-import toast from "react-hot-toast"
 
 const MyTask = () => {
   const [allTasks, setAllTasks] = useState([])
@@ -21,7 +19,7 @@ const MyTask = () => {
 
   const navigate = useNavigate()
 
-  const getAllTasks = async () => {
+  const getAllTasks = async (filterStatus) => {
     try {
       const response = await axiosInstance.get("/tasks", {
         params: {
@@ -52,8 +50,6 @@ const MyTask = () => {
 
   useEffect(() => {
     getAllTasks(filterStatus)
-
-    return () => {}
   }, [filterStatus])
 
   return (

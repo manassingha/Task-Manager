@@ -14,22 +14,17 @@ import {
 
 const router = express.Router()
 
+//admin only routes
 router.post("/create", verifyToken, adminOnly, createTask)
-
-router.get("/", verifyToken, getTasks)
-
+router.delete("/:id", verifyToken, adminOnly, deleteTask)
 router.get("/dashboard-data", verifyToken, adminOnly, getDashboardData)
 
+//user tasks routes
+router.get("/", verifyToken, getTasks)
 router.get("/user-dashboard-data", verifyToken, userDashboardData)
-
 router.get("/:id", verifyToken, getTaskById)
-
 router.put("/:id", verifyToken, updateTask)
-
-router.delete("/:id", verifyToken, adminOnly, deleteTask)
-
 router.put("/:id/status", verifyToken, updateTaskStatus)
-
 router.put("/:id/todo", verifyToken, updateTaskChecklist)
 
 export default router

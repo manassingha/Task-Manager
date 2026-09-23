@@ -2,6 +2,7 @@ import mongoose from "mongoose"
 import Task from "../models/task.model.js"
 import { errorHandler } from "../utils/error.js"
 
+//!admin only can create task, but any user can view tasks assigned to them
 export const createTask = async (req, res, next) => {
   try {
     const {
@@ -161,6 +162,7 @@ export const updateTask = async (req, res, next) => {
   }
 }
 
+//!admin only can delete task
 export const deleteTask = async (req, res, next) => {
   try {
     const task = await Task.findById(req.params.id)
@@ -177,6 +179,7 @@ export const deleteTask = async (req, res, next) => {
   }
 }
 
+//?admin and user both can update task status, but user can only update status of tasks assigned to them
 export const updateTaskStatus = async (req, res, next) => {
   try {
     const task = await Task.findById(req.params.id)
@@ -243,6 +246,7 @@ export const updateTaskChecklist = async (req, res, next) => {
     }
 
     await task.save()
+    
 
     const updatedTask = await Task.findById(req.params.id).populate(
       "assignedTo",
@@ -257,6 +261,7 @@ export const updateTaskChecklist = async (req, res, next) => {
   }
 }
 
+//!also admin only route
 export const getDashboardData = async (req, res, next) => {
   try {
     // Fetching statistics

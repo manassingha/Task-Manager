@@ -59,12 +59,16 @@ export const signin = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
+
+    //checks if all the inputs are provided
     if (!email || !password || email === "" || password === "") {
       return next(errorHandler(400, "All fields are required"));
     }
 
+    //checks if the user exists in the DB
     const validUser = await User.findOne({ email });
 
+    //if not present
     if (!validUser) {
       return next(errorHandler(404, "User not found!"));
     }
@@ -76,6 +80,7 @@ export const signin = async (req, res, next) => {
       return next(errorHandler(400, "Wrong Credentials"));
     }
 
+    //jwt token generation
     const token = jwt.sign(
       { id: validUser._id, role: validUser.role },
       process.env.JWT_SECRET,
@@ -111,7 +116,7 @@ export const userProfile = async (req, res, next) => {
   }
 };
 
-//update controller
+//update user profile controller
 export const updateUserProfile = async (req, res, next) => {
   try {
     const user = await User.findById(req.user.id);
@@ -137,6 +142,7 @@ export const updateUserProfile = async (req, res, next) => {
   }
 };
 
+//uploading of profile image controller
 export const uploadImage = async (req, res, next) => {
   try {
     if (!req.file) {
@@ -153,6 +159,8 @@ export const uploadImage = async (req, res, next) => {
   }
 };
 
+
+//sign-out or logout controller 
 export const signout = async (req, res, next) => {
   try {
     res

@@ -12,14 +12,13 @@ export const verifyToken = (req, res, next) => {
     if (err) {
       return next(errorHandler(401, "Unauthorized"))
     }
-
     req.user = user
-
     next()
   })
 }
 
 export const adminOnly = (req, res, next) => {
+  //verification of the logged in user
   const token = req.cookies.access_token
 
   if (!token) {
@@ -35,6 +34,8 @@ export const adminOnly = (req, res, next) => {
 
     // console.log(req.user)
 
+    //
+    // ^checking if the logged in user is an admin or not
     if (req.user && req.user.role === "admin") {
       next()
     } else {
